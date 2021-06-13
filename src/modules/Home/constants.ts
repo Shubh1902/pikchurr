@@ -15,3 +15,14 @@ export const COLUMNS = [
     label: 'Title',
   },
 ];
+export const ENDPOINTS = {
+  now_playing: '/movie/now_playing',
+  upcoming: '/movie/upcoming',
+  genres: '/genre/movie/list',
+  popular: '/movie/popular',
+  search: '/search/movie',
+};
+export const DEFAULT_GENRES = {
+  now_playing: 'now_playing',
+  upcoming: 'upcoming',
+};

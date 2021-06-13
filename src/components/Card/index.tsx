@@ -1,8 +1,16 @@
-export const Card = () => {
+import moment from 'moment';
+import { MovieRespInteface } from 'src/modules/Home/types';
+
+interface Props {
+  movieData: MovieRespInteface;
+}
+export const Card = (props: Props) => {
   return (
     <div
       style={{
         marginBottom: '20px',
+        maxWidth: '256px',
+        minWidth:"256px"
       }}
     >
       <div
@@ -11,7 +19,8 @@ export const Card = () => {
         }}
       >
         <img
-          src="https://image.tmdb.org/t/p/w300/rTh4K5uw9HypmpGslcKd4QfHl93.jpg"
+          src={`https://image.tmdb.org/t/p/w300/${props.movieData.poster_path}`}
+          alt={props.movieData.title}
           style={{
             height: '380px',
             width: '256px',
@@ -27,7 +36,7 @@ export const Card = () => {
           marginBottom: '5px',
         }}
       >
-        Birds of prey
+        {props.movieData.title}
       </div>
       <div
         style={{
@@ -36,7 +45,7 @@ export const Card = () => {
           fontSize: '16px',
         }}
       >
-        Feb 05, 2005
+        {moment(props.movieData.release_date).format("MMM DD, YYYY")}
       </div>
     </div>
   );

@@ -1,9 +1,11 @@
 import { makeStyles, Theme } from '@material-ui/core';
-
+import React, { ChangeEvent, useState } from 'react';
+import { useEffect } from 'react';
+import SearchIcon from '@material-ui/icons/Search';
 const useStyles = makeStyles((theme: Theme) => ({
   searchWrapper: {
     background: '#F2F1F8',
-    height: '275px',
+    height: '325px',
     borderRadius: '16px',
     display: 'flex',
     alignItems: 'center',
@@ -33,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       flexGrow: 1,
       width: '100%',
       marginRight: '0',
-      marginBottom: '5px',
+      marginBottom: '10px',
     },
     marginRight: '20px',
   },
@@ -51,8 +53,20 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export const SearchBar = () => {
+export const SearchBar = (props: { value: string; callback: Function }) => {
   const classes = useStyles();
+  const [searchString, setSearchString] = useState(props.value);
+
+  useEffect(() => {
+    setSearchString(props.value);
+  }, [props.value]);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchString(event.target.value);
+  };
+  const handleSubmit = () => {
+    props.callback(searchString);
+  };
   return (
     <div className={classes.searchWrapper}>
       <div className={classes.searchTitle}>
@@ -60,7 +74,13 @@ export const SearchBar = () => {
       </div>
       <div className={classes.searchInput}>
         <div className={classes.searchInputText}>
-          <input type="text" className={classes.searchInputElement}></input>
+          <input
+            type="search"
+            className={classes.searchInputElement}
+            value={searchString}
+            onChange={handleChange}
+            placeholder="Search..."
+          ></input>
         </div>
         <div className={classes.searchInputButton}>
           <input
@@ -70,7 +90,9 @@ export const SearchBar = () => {
             style={{
               background: '#6855D68A',
               color: 'white',
+              cursor: 'pointer',
             }}
+            onClick={handleSubmit}
           ></input>
         </div>
       </div>
