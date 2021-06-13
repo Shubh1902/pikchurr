@@ -3,8 +3,6 @@ export const Card = () => {
     <div
       style={{
         marginBottom: '20px',
-        marginLeft: '0',
-        marginRight: 'auto',
       }}
     >
       <div

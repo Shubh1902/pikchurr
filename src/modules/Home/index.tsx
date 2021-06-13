@@ -1,74 +1,24 @@
 import { makeStyles, Theme } from '@material-ui/core';
 import axios from 'axios';
 import React from 'react';
+import { useEffect } from 'react';
 import { Card } from 'src/components/Card';
 import Navbar from 'src/components/Navbar';
+import { SearchBar } from 'src/components/SearchBar';
 function fetchData(
-  start: number = 0,
-  searchString: string = '',
-  resolve: Function
+  url: string,
+  queryParams?: { [x: string]: number | string }
 ) {
-  return axios
-    .get(
-      `https://jsonplaceholder.typicode.com/photos?_start=${start}&_limit=10&q=${searchString}`
-    )
-    .then((res) => resolve(res.data))
-    .catch((err) => console.log(err));
+  return axios.get(
+    `https://api.themoviedb.org/3${url}?api_key=3c49c3cdfcc72dc26043342f2def425a
+      `
+  );
 }
-//https://api.themoviedb.org/3/movie/popular?api_key=3c49c3cdfcc72dc26043342f2def425a
+
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     marginLeft: '2rem',
     marginRight: '2rem',
-  },
-  searchWrapper: {
-    background: '#F2F1F8',
-    height: '275px',
-    borderRadius: '16px',
-    margin: '20px 8% 0 8%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-  },
-  searchTitle: {
-    height: '30px',
-    fontSize: '30px',
-    fontWeight: 400,
-    fontFamily: 'inter',
-    marginBottom: '50px',
-    textAlign: 'center',
-  },
-  searchInput: {
-    display: 'flex',
-    width: '80%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    [theme.breakpoints.down('xs')]: {
-      flexDirection: 'column',
-    },
-  },
-  searchInputText: {
-    flexGrow: 6,
-    [theme.breakpoints.down('xs')]: {
-      flexGrow: 1,
-      width: '100%',
-      marginRight: '0',
-      marginBottom: '5px',
-    },
-    marginRight: '20px',
-  },
-  searchInputButton: {
-    flexGrow: 1,
-    [theme.breakpoints.down('xs')]: {
-      width: '100%',
-    },
-  },
-  searchInputElement: {
-    width: '100%',
-    border: 'none',
-    borderRadius: '8px',
-    height: '40px',
   },
   contentWrapper: {
     margin: '60px 8% 0 8%',
@@ -110,36 +60,22 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 const Home = () => {
   const classes = useStyles();
+  useEffect(() => {
+    fetchData('/movie/now_playing', { page: 1 }).then((resp) =>
+      console.log(resp.data)
+    );
+  }, []);
   return (
     <div className={classes.root}>
       <Navbar />
-      <div className={classes.searchWrapper}>
-        <div className={classes.searchTitle}>
-          Find the perfect movie for&nbsp;<b>evening</b>
-        </div>
-        <div className={classes.searchInput}>
-          <div className={classes.searchInputText}>
-            <input type="text" className={classes.searchInputElement}></input>
-          </div>
-          <div className={classes.searchInputButton}>
-            <input
-              type="button"
-              value="Search"
-              className={classes.searchInputElement}
-              style={{
-                background: '#6855D68A',
-                color: 'white',
-              }}
-            ></input>
-          </div>
-        </div>
-      </div>
       <div className={classes.contentWrapper}>
+        <SearchBar />
         <div
           style={{
             fontSize: '30px',
             fontWeight: 400,
             fontFamily: 'inter',
+            marginTop: '100px',
             marginBottom: '30px',
           }}
         >
@@ -162,6 +98,7 @@ const Home = () => {
             display: 'flex',
             marginBottom: '50px',
             flexWrap: 'wrap',
+            justifyContent: 'space-between',
           }}
         >
           <Card />
