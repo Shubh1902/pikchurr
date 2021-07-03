@@ -18,6 +18,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   movieNavItem: {
+    
     display: 'flex',
     textAlign: 'center',
     opacity: '54%',
